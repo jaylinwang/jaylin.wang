@@ -16,6 +16,7 @@
     "@astrojs/sitemap": "^3.0.3",
     "@astrojs/vercel": "^5.1.0",
     "astro": "^3.4.3",
+    "dayjs": "^1.11.10",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
