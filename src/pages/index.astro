@@ -6,104 +6,57 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import dayjs from 'dayjs';
 
-const posts = (await getCollection('blog')).sort((a, b) => {
-  if (a.data?.date && b.data?.date) {
-    return dayjs(a.data.date).isBefore(b.data.date) ? 1 : -1;
-  }
-  return 0;
-});
+const posts = (await getCollection('blog'))
+  .sort((a, b) => {
+    if (a.data?.date && b.data?.date) {
+      return dayjs(a.data.date).isBefore(b.data.date) ? 1 : -1;
+    }
+    return 0;
+  })
+  .slice(5);
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <style>
-      main {
-        width: 960px;
-      }
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      ul li {
-        width: calc(50% - 1rem);
-      }
-      ul li * {
-        text-decoration: none;
-        transition: 0.2s ease;
-      }
-      ul li:first-child {
-        width: 100%;
-        margin-bottom: 1rem;
-        text-align: center;
-      }
-      ul li:first-child img {
-        width: 100%;
-      }
-      ul li:first-child .title {
-        font-size: 2.369rem;
-      }
-      ul li img {
-        margin-bottom: 0.5rem;
-        border-radius: 12px;
-      }
-      ul li a {
-        display: block;
-      }
-      .title {
-        margin: 0;
-        color: rgb(var(--black));
-        line-height: 1;
-      }
-      .date {
-        margin: 0;
-        color: rgb(var(--gray));
-      }
-      ul li a:hover h4,
-      ul li a:hover .date {
-        color: rgb(var(--accent));
-      }
-      ul a:hover img {
-        box-shadow: var(--box-shadow);
-      }
-      @media (max-width: 720px) {
-        ul {
-          gap: 0.5em;
-        }
-        ul li {
-          width: 100%;
-          text-align: center;
-        }
-        ul li:first-child {
-          margin-bottom: 0;
-        }
-        ul li:first-child .title {
-          font-size: 1.563em;
-        }
-      }
-    </style>
   </head>
   <body>
     <Header />
     <main>
-      <section>
-        <ul>
-          {
-            posts.map((post) => (
-              <li>
-                <a href={`/blog/${post.slug}/`}>
-                  <h4 class="title">{post.data.title}</h4>
-                  <p class="date">{dayjs(post.data.date).format('YYYY-MM-DD HH:mm')}</p>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
+      <section class="bg-slate-50 p-24">
+        <div class="container m-auto flex flex-col items-center">
+          <img class="w-24 rounded-full mb-4" src="https://cdn.jaylin.wang/jaylins/avatar.svg" alt="avatar" />
+          <p class="text-slate-600 text-center leading-relaxed p-4 max-w-2xl">
+            Hi！欢迎访问继林的知识花园，这里记录了一些自己生活和工作中所学、所误、所感，希望督促对自我的认知，也希望自己的认知能抛砖引玉，引起你的共鸣。
+          </p>
+        </div>
+      </section>
+      <section class="py-12">
+        <div class="m-auto max-w-3xl">
+          <h3 class="mb-4">最新文章</h3>
+          <ul>
+            {
+              posts.map((post) => (
+                <li class="flex py-2">
+                  <p class="text-red-500 w-24">{dayjs(post.data.date).format('YYYY-MM-DD')}</p>
+                  <a class="flex-1 text-slate-800" href={`/blog/${post.slug}/`}>
+                    <h4 class="title">{post.data.title}</h4>
+                  </a>
+                  <a class="text-slate-500 text-sm hover:text-slate-800" href={`/blog/${post.slug}/`}>
+                    阅读全文
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="p-6 flex items-center justify-center">
+            <a
+              class="border px-3 py-1 text-sm rounded-sm border-slate-500 text-slate-800 hover:border-slate-800"
+              href="/list">全部文章</a
+            >
+          </div>
+        </div>
       </section>
     </main>
     <Footer />

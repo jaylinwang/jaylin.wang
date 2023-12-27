@@ -1,0 +1,47 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import dayjs from 'dayjs';
+
+const posts = (await getCollection('blog')).sort((a, b) => {
+  if (a.data?.date && b.data?.date) {
+    return dayjs(a.data.date).isBefore(b.data.date) ? 1 : -1;
+  }
+  return 0;
+});
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <section class="py-12">
+      <div class="m-auto max-w-3xl">
+        <h3 class="mb-4">全部文章</h3>
+        <ul>
+          {
+            posts.map((post) => (
+              <li class="flex py-2">
+                <p class="text-red-500 w-24">{dayjs(post.data.date).format('YYYY-MM-DD')}</p>
+                <a class="flex-1 text-slate-800" href={`/blog/${post.slug}/`}>
+                  <h4 class="title">{post.data.title}</h4>
+                </a>
+                <a class="text-slate-500 text-sm hover:text-slate-800" href={`/blog/${post.slug}/`}>
+                  阅读全文
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <Footer />
+  </body>
+</html>

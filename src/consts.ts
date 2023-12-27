@@ -1,5 +1,2 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
-
-export const SITE_TITLE = 'JALINS';
-export const SITE_DESCRIPTION = 'Welcome to my website!';
+export const SITE_TITLE = 'JAYLINS';
+export const SITE_DESCRIPTION = '继林的知识花园,JAYLINS,继林,记录关于继林和他的朋友们';
