@@ -6,7 +6,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import dayjs from 'dayjs';
 
-const posts = (await getCollection('blog')).sort((a, b) => {
+const posts = (await getCollection('post')).sort((a, b) => {
   if (a.data?.date && b.data?.date) {
     return dayjs(a.data.date).isBefore(b.data.date) ? 1 : -1;
   }
@@ -29,10 +29,10 @@ const posts = (await getCollection('blog')).sort((a, b) => {
             posts.map((post) => (
               <li class="flex py-2">
                 <p class="text-red-500 w-24">{dayjs(post.data.date).format('YYYY-MM-DD')}</p>
-                <a class="flex-1 text-slate-800" href={`/blog/${post.slug}/`}>
+                <a class="flex-1 text-slate-800" href={`/post/${post.slug}/`}>
                   <h4 class="title">{post.data.title}</h4>
                 </a>
-                <a class="text-slate-500 text-sm hover:text-slate-800" href={`/blog/${post.slug}/`}>
+                <a class="text-slate-500 text-sm hover:text-slate-800" href={`/post/${post.slug}/`}>
                   阅读全文
                 </a>
               </li>
